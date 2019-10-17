@@ -9,7 +9,7 @@ void main() {
     home: QuotesPage(),
   ));
 }
-
+bool apiCall = false;
 class QuotesPage extends StatefulWidget {
   @override
   _QuotesPageState createState() => _QuotesPageState();
@@ -59,17 +59,21 @@ class _QuotesPageState extends State<QuotesPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: RawMaterialButton(
-                  onPressed: () async {
+                  constraints: BoxConstraints.tightFor(width: 60,height: 60),
+                  shape: CircleBorder(),
+                  elevation: 2.0,
+                  onPressed: () async{
+                    setState(() {
+                      apiCall = true;
+                    });
                     Map finalQuoteMap = await getQuote();
                     setState(() {
                       quote = finalQuoteMap['quote']['body'];
                       author = finalQuoteMap['quote']['author'];
+                      apiCall = false;
                     });
                   },
-                  child: Icon(
-                    Icons.navigate_next,
-                    color: Colors.red,
-                  ),
+                  child: apiCall == false?Icon(Icons.arrow_forward,color: Colors.red,size: 30,):CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),strokeWidth: 1,),
                   fillColor: Colors.white,
                 ),
               ),
