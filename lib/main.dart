@@ -37,44 +37,50 @@ class _QuotesPageState extends State<QuotesPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                '$quote',
-                style: TextStyle(fontFamily: 'Playfair', fontSize: 30),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height:20),
-              Align(
-                  alignment: Alignment.centerLeft,
+              Expanded(
+                flex: 4,
+                child: Center(
                   child: Text(
-                    '$author',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.red,
-                        fontStyle: FontStyle.italic),
+                    '$quote',
+                    style: TextStyle(fontFamily: 'Playfair', fontSize: 30),
                     textAlign: TextAlign.left,
-                  )),
-              SizedBox(
-                height: 20,
+                  ),
+                ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: RawMaterialButton(
-                  constraints: BoxConstraints.tightFor(width: 60,height: 60),
-                  shape: CircleBorder(),
-                  elevation: 2.0,
-                  onPressed: () async{
-                    setState(() {
-                      apiCall = true;
-                    });
-                    Map finalQuoteMap = await getQuote();
-                    setState(() {
-                      quote = finalQuoteMap['quote']['body'];
-                      author = finalQuoteMap['quote']['author'];
-                      apiCall = false;
-                    });
-                  },
-                  child: apiCall == false?Icon(Icons.arrow_forward,color: Colors.red,size: 30,):CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),strokeWidth: 1,),
-                  fillColor: Colors.white,
+
+              Expanded(flex: 1,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '$author',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                          fontStyle: FontStyle.italic),
+                      textAlign: TextAlign.left,
+                    )),
+              ),
+              Expanded(flex: 1,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RawMaterialButton(
+                    constraints: BoxConstraints.tightFor(width: 60,height: 60),
+                    shape: CircleBorder(),
+                    elevation: 2.0,
+                    onPressed: () async{
+                      setState(() {
+                        apiCall = true;
+                      });
+                      Map finalQuoteMap = await getQuote();
+                      setState(() {
+                        quote = finalQuoteMap['quote']['body'];
+                        author = finalQuoteMap['quote']['author'];
+                        apiCall = false;
+                      });
+                    },
+                    child: apiCall == false?Icon(Icons.arrow_forward,color: Colors.red,size: 30,):CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),strokeWidth: 1,),
+                    fillColor: Colors.white,
+                  ),
                 ),
               ),
             ],
